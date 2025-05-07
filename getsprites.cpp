@@ -317,12 +317,7 @@ D2D1_RECT_F greenrectangle;
 D2D1_RECT_F blackrectangle;
 
 inline void drawsquare(ID2D1HwndRenderTarget *pRenderTarget,ID2D1SolidColorBrush *pBrush, int x, int y,int sizey = 3,int sizex=3){
-    // printf("t");
-    if(pBrush != NULL){
-        pRenderTarget->FillRectangle(D2D1::RectF(x,y,x+sizex,y+sizey), pBrush);
-    }
-    
-
+    pRenderTarget->FillRectangle(D2D1::RectF(x,y,x+sizex,y+sizey), pBrush);
 }
 void drawsprites(ID2D1HwndRenderTarget *pRenderTarget,ID2D1SolidColorBrush *pBrush1,ID2D1SolidColorBrush *pBrush2, int spritetype,int x,int y,ID2D1SolidColorBrush *pBrush3=NULL){
     int (*Sprite)[16];
@@ -477,6 +472,7 @@ void drawsprites(ID2D1HwndRenderTarget *pRenderTarget,ID2D1SolidColorBrush *pBru
             Sprite = linkSpriterightmoving;
             break;
     }
+    if(pBrush1 ==NULL ||pBrush2 == NULL || pBrush3 == NULL){return;}
     for(int i = 0;i<16;i++){
     for(int j = 0;j<16;j++){
         int size = 0;

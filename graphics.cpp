@@ -269,11 +269,15 @@ public:
     LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
     boolean checkCollision(boolean movingverticle,boolean movingup=false){
         // std::vector<int> collidable = levelmap.collidable;
-        int x5 = (linkxPos+7)/16;
-        int y5 = (linkyPos+7)/16;
-        
-        int pos = x5+16*y5;
-        return levelmap.iscollidable[pos];
+        int x5 = (linkxPos)/16;
+        int y5 = (linkyPos+15)/16;
+        int x6 = (linkxPos+15)/16;
+        int y6 = (linkyPos+7)/16;
+        int pos = std::min(x5+16*y5,160+x5);
+        int pos2= std::min(x6+16*y5,160+x6);
+        int pos3= std::min(x5+16*y6,160+x5);
+        int pos4 =std::min(x6+16*y6,160+x6);
+       return levelmap.iscollidable[pos]+levelmap.iscollidable[pos2]+levelmap.iscollidable[pos3]+levelmap.iscollidable[pos4];
         // for(int i = 0; i<collidable.size();i++){
         //     if(collidable[i]==pos){
         //         return false;
@@ -391,7 +395,7 @@ LRESULT renderingWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
                         offset-= 0.25;
                         break;
                 }
-                if(offset ==0){screenmoving =0;linkxPos=round(linkxPos);linkyPos=round(linkyPos);}
+                if(offset ==0){screenmoving =0;linkyPos=ceil(linkyPos);}
             }
             else if(moving){
                 movesprite++;
@@ -409,17 +413,17 @@ LRESULT renderingWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
                         break;
                     case (3):
-                        linkxPos-=8.0/3;
+                        linkxPos-=8.0/4;
                         while(checkCollision(false)){
-                            linkxPos+=1.0/3;
+                            linkxPos+=1.0/4;
                         }
                         if(linkxPos<=0){level--;screenmoving = 3;offset =-16;levelmap.updatelevel(level);}
 
                         break;
                     case (4):
-                        linkxPos+=8.0/3;
+                        linkxPos+=8.0/4;
                         while(checkCollision(false)){
-                            linkxPos-=1.0/3;
+                            linkxPos-=1.0/4;
                         }
                         if(linkxPos>=240){level++;screenmoving = 4;offset =16;levelmap.updatelevel(level);}
                         break;
